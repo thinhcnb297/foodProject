@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">foodProject</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB6l3GABPLKFCtetp3K-nEi-bQySpk9aww</string>
+</resources>
+
