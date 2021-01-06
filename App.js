@@ -20,6 +20,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MotorBikeScreen from './src/modules/Screens/StackScreen/MenuIcon/motorBike';
+import FoodScreen from './src/modules/Screens/StackScreen/MenuIcon/Food';
 
 const Stack = createNativeStackNavigator();
 
@@ -115,6 +116,11 @@ const App = () => {
         <Stack.Screen
           name="MotorScreen"
           component={MotorBikeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FoodScreen"
+          component={FoodScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

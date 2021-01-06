@@ -48,15 +48,15 @@ export const styleMenu = StyleSheet.create({
 export const styleAdvertisement = StyleSheet.create({
   container: {
     width,
-    height: 290,
+    height: 280,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor:'red'
   },
   imageWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
     width,
+    flex: 1,
   },
   image: {
     width: (width * 90) / 100,

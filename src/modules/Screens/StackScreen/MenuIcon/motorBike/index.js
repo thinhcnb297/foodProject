@@ -17,8 +17,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Color, IconSize} from '../../../../../configs/colors';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
-import AndroidOpenSettings from 'react-native-android-open-settings';
-import Geolocation from '@react-native-community/geolocation';
+
+import {APIKEYGOOGLEMAP} from '../../../../../constants';
 
 // const {width, height} = Dimensions.get('window');
 
@@ -29,46 +29,17 @@ import Geolocation from '@react-native-community/geolocation';
 // const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const MotorBikeScreen = () => {
-  const [state, setState] = React.useState({
-    isAlowFineLocation: false,
-    initialPosition: null,
-  });
+  const mapViewRef = React.useRef();
+
+  const [state, setState] = React.useState({});
 
   React.useEffect(() => {
-    const success = (pos) => {
-      const crd = pos.coords;
-      const {latitude, longitude} = crd;
-      const initialPosition = {
-        latitude,
-        longitude,
-      };
-      setState((prevState) => ({...prevState, initialPosition}));
-    };
-
-    const error = (err) => {
-      console.log(err);
-    };
-
     const requestLocationPermission = async () => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          // {
-          //   title: 'Location Permission',
-          //   message:
-          //     'Food App needs access to your location ' + 'so you can use map.',
-          //   buttonNeutral: 'Ask Me Later',
-          //   buttonNegative: 'Cancel',
-          //   buttonPositive: 'OK',
-          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          var options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
-          };
-          Geolocation.getCurrentPosition(success, error, options);
         } else {
           Alert.alert(
             'Location permission denied',
@@ -90,12 +61,49 @@ const MotorBikeScreen = () => {
   }, []);
 
   const navigation = useNavigation();
+
   const onPressBack = React.useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  console.log("🚀 ~ file: index.js ~ line 97 ~ MotorBikeScreen ~ state.initialPosition", state.initialPosition)
-  if (!state.initialPosition) return <ActivityIndicator />;
+  const onUserLocationChange = React.useCallback(
+    ({nativeEvent}) => {
+      const userLocation = nativeEvent.coordinate;
+      getAdressByLocation(userLocation);
+      moveCameraLocation(userLocation);
+    },
+    [moveCameraLocation, getAdressByLocation],
+  );
+
+  const getAdressByLocation = React.useCallback(async (location) => {
+    const {latitude, longitude} = location;
+    const APIKEY = APIKEYGOOGLEMAP;
+    // const dataJson = await (
+    //   await fetch(
+    //     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${APIKEY}`,
+    //   )
+    // ).json();
+    // console.log(
+    //   '🚀 ~ file: index.js ~ line 90 ~ getAdressByLocation ~ dataJson',
+    //   dataJson,
+    // );
+  }, []);
+
+  const moveCameraLocation = React.useCallback((location) => {
+    mapViewRef.current?.animateCamera(
+      {
+        center: {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        },
+        altitude: location.altitude,
+        heading: location.heading,
+        pitch: 1,
+        zoom: 16,
+      },
+      {duration: 1},
+    );
+  }, []);
 
   return (
     <SafeAreaView>
@@ -124,12 +132,17 @@ const MotorBikeScreen = () => {
       {/* Map */}
       <View style={stylesMap.container}>
         <MapView
+          ref={mapViewRef}
+          // onMapReady={onMapReady}
+          onUserLocationChange={onUserLocationChange}
           provider={PROVIDER_GOOGLE}
           style={stylesMap.map}
           // mapType={Platform.OS === 'android' ? 'none' : 'standard'}
-          region={state.initialPosition}
+          // region={state.initialPosition}
           zoomEnabled
           showsUserLocation
+          loadingEnabled
+          toolbarEnabled
         />
       </View>
     </SafeAreaView>
