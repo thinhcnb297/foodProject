@@ -63,7 +63,7 @@ const options = {
     tabBarLabel: 'Tài khoản',
   },
 };
-function MyTab() {
+function MainTab() {
   return (
     <Tab.Navigator
       tabBarPosition="bottom"
@@ -72,7 +72,7 @@ function MyTab() {
         activeTintColor: Color.green,
         inactiveTintColor: Color.gray,
         labelStyle: {fontSize: 10, textTransform: 'none'},
-        // tabStyle: {width: 100},
+        tabStyle: {padding: 0},
         style: {backgroundColor: Color.white},
         showIcon: true,
         pressColor: Color.green,
@@ -109,7 +109,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="HomeTab"
-          component={MyTab}
+          component={MainTab}
           options={{headerShown: false}}
         />
         <Stack.Screen
