@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
-
+import {Provider} from 'react-redux';
+import rootStore from './src/Redux/rootStore';
 //Navigator
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -106,25 +107,27 @@ function MainTab() {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="HomeTab"
-          component={MainTab}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MotorScreen"
-          component={MotorBikeScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="FoodScreen"
-          component={FoodScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={rootStore}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="HomeTab"
+            component={MainTab}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="MotorScreen"
+            component={MotorBikeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="FoodScreen"
+            component={FoodScreen}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 export default App;

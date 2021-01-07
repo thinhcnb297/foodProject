@@ -120,7 +120,7 @@ const MotorBikeScreen = () => {
         </View>
         <View style={styleHeader.titleContainer}>
           <Chip
-            // selected={true}
+            // selected
             // selectedColor={Color.green}
             onPress={() => console.log('Pressed')}>
             Gọi xe
@@ -134,15 +134,22 @@ const MotorBikeScreen = () => {
         <MapView
           ref={mapViewRef}
           // onMapReady={onMapReady}
-          onUserLocationChange={onUserLocationChange}
-          provider={PROVIDER_GOOGLE}
           style={stylesMap.map}
-          // mapType={Platform.OS === 'android' ? 'none' : 'standard'}
+          mapType={'standard'}
           // region={state.initialPosition}
           zoomEnabled
-          showsUserLocation
-          loadingEnabled
           toolbarEnabled
+          loadingEnabled
+          showsUserLocation
+          provider={PROVIDER_GOOGLE}
+          loadingIndicatorColor={Color.green}
+          onUserLocationChange={onUserLocationChange}
+          pitchEnabled
+          followsUserLocation
+          showsCompass
+          showsBuildings
+          showsTraffic
+          showsIndoors
         />
       </View>
     </SafeAreaView>
