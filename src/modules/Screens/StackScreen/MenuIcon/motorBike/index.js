@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 import {styleHeader, stylesMap} from './styles';
 import {Chip} from 'react-native-paper';
@@ -20,6 +21,7 @@ const MotorBikeScreen = () => {
   }, [navigation]);
   return (
     <SafeAreaView>
+      <StatusBar animated backgroundColor={Color.gray} barStyle="default" />
       {/* Header */}
       <View style={styleHeader.container}>
         <View style={styleHeader.iconLeftWrapper}>

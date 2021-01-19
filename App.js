@@ -68,6 +68,7 @@ function MyTab() {
     <Tab.Navigator
       tabBarPosition="bottom"
       keyboardDismissMode="auto"
+      swipeEnabled={false}
       tabBarOptions={{
         activeTintColor: Color.green,
         inactiveTintColor: Color.gray,
@@ -77,6 +78,7 @@ function MyTab() {
         showIcon: true,
         pressColor: Color.green,
         indicatorStyle: {top: 0},
+        
       }}>
       <Tab.Screen name="Home" component={Home} options={options.homeOptions} />
       <Tab.Screen

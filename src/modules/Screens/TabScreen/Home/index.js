@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  StatusBar,
 } from 'react-native';
 import HeaderTabHome from '../../../../components/Header/HeaderTabHome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -136,9 +137,12 @@ const Home = () => {
     );
   }, [onPressHeader]);
 
-  const onPressMenuItem = React.useCallback((item) => () => {
+  const onPressMenuItem = React.useCallback(
+    (item) => () => {
       navigation.navigate(item.component);
-    },[navigation]);
+    },
+    [navigation],
+  );
 
   const renderMenu = React.useCallback(() => {
     return menuIcon.map((item, index) => {
@@ -227,6 +231,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styleHeader.container}>
+      <StatusBar animated backgroundColor={Color.green} barStyle="default" />
       <HeaderTabHome />
       <ScrollView
         onScroll={(nativeEvent) => onScroll(nativeEvent)}
