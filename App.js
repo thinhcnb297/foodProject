@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
-
+import {Provider} from 'react-redux';
+import rootStore from './src/Redux/rootStore';
 //Navigator
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -20,6 +21,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MotorBikeScreen from './src/modules/Screens/StackScreen/MenuIcon/motorBike';
+import FoodScreen from './src/modules/Screens/StackScreen/MenuIcon/Food';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,7 +65,7 @@ const options = {
     tabBarLabel: 'Tài khoản',
   },
 };
-function MyTab() {
+function MainTab() {
   return (
     <Tab.Navigator
       tabBarPosition="bottom"
@@ -73,7 +75,7 @@ function MyTab() {
         activeTintColor: Color.green,
         inactiveTintColor: Color.gray,
         labelStyle: {fontSize: 10, textTransform: 'none'},
-        // tabStyle: {width: 100},
+        tabStyle: {padding: 0},
         style: {backgroundColor: Color.white},
         showIcon: true,
         pressColor: Color.green,
@@ -107,20 +109,27 @@ function MyTab() {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="HomeTab"
-          component={MyTab}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MotorScreen"
-          component={MotorBikeScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={rootStore}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="HomeTab"
+            component={MainTab}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="MotorScreen"
+            component={MotorBikeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="FoodScreen"
+            component={FoodScreen}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 export default App;

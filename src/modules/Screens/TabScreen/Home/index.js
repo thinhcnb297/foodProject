@@ -30,7 +30,11 @@ const menuIcon = [
     iconUrl: require('../../../../assets/images/icon/motor.jpg'),
     component: 'MotorScreen',
   },
-  {title: 'Đồ ăn', iconUrl: require('../../../../assets/images/icon/food.jpg')},
+  {
+    title: 'Đồ ăn',
+    iconUrl: require('../../../../assets/images/icon/food.jpg'),
+    component: 'FoodScreen',
+  },
   {
     title: 'Giao hàng',
     iconUrl: require('../../../../assets/images/icon/delivery.jpg'),
@@ -191,7 +195,6 @@ const Home = () => {
   }, []);
 
   const renderItem = React.useCallback((item) => {
-    console.log('🚀 ~ file: index.js ~ line 169 ~ renderItem ~ item', item);
     return (
       <View style={styleList.container}>
         <Image

@@ -2,6 +2,7 @@ export const Color = {
   green: '#2ecc71',
   softGreen: '#E2F7E8',
   gray: '#bdc3c7',
+  silver: '#95a5a6',
   white: '#ffff',
   light: '#F7F7F7',
   black: '#2c3e50',
