@@ -117,6 +117,7 @@ const MotorBikeScreen = () => {
 
   return (
     <SafeAreaView>
+      <StatusBar animated backgroundColor={Color.gray} barStyle="default" />
       {/* Header */}
       <View style={styleHeader.container}>
         <View style={styleHeader.iconLeftWrapper}>

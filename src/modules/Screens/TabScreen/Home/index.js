@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  StatusBar,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

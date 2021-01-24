@@ -60,6 +60,7 @@ function MainTab() {
     <Tab.Navigator
       tabBarPosition="bottom"
       keyboardDismissMode="auto"
+      swipeEnabled={false}
       tabBarOptions={{
         activeTintColor: Color.green,
         inactiveTintColor: Color.gray,
