@@ -1,6 +1,6 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
+rn_maps_path = '../node_modules/react-native-maps'
 platform :ios, '10.0'
 
 target 'foodProject' do
@@ -21,6 +21,12 @@ target 'foodProject' do
   post_install do |installer|
     flipper_post_install(installer)
   end
+
+
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+
 end
 
 target 'foodProject-tvOS' do

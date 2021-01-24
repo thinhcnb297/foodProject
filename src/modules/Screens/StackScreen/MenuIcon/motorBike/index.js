@@ -11,14 +11,14 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import {styleHeader, stylesMap} from './styles';
-import {Chip} from 'react-native-paper';
+import { styleHeader, stylesMap } from './styles';
+import { Chip } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Color, IconSize} from '../../../../../configs/colors';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {useNavigation} from '@react-navigation/native';
+import { Color, IconSize } from '../../../../../configs/colors';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 
-import {APIKEYGOOGLEMAP} from '../../../../../constants';
+import { APIKEYGOOGLEMAP } from '../../../../../constants';
 
 // const {width, height} = Dimensions.get('window');
 
@@ -31,10 +31,13 @@ import {APIKEYGOOGLEMAP} from '../../../../../constants';
 const MotorBikeScreen = () => {
   const mapViewRef = React.useRef();
 
+  const onMapInit = React.useRef(false);
+
   const [state, setState] = React.useState({});
 
   React.useEffect(() => {
     const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {return;}
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -50,7 +53,7 @@ const MotorBikeScreen = () => {
                 onPress: () => Linking.openSettings(),
               },
             ],
-            {cancelable: false},
+            { cancelable: false },
           );
         }
       } catch (err) {
@@ -66,17 +69,23 @@ const MotorBikeScreen = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const onUserLocationChange = React.useCallback(
-    ({nativeEvent}) => {
-      const userLocation = nativeEvent.coordinate;
-      getAdressByLocation(userLocation);
-      moveCameraLocation(userLocation);
-    },
+  const onUserLocationChange = React.useCallback(async ({ nativeEvent }) => {
+    const userLocation = nativeEvent.coordinate;
+    getAdressByLocation(userLocation);
+
+    if (onMapInit.current) {return null;}
+    if (Platform.OS === 'ios') {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 2000);
+      });
+    }
+    moveCameraLocation(userLocation);
+  },
     [moveCameraLocation, getAdressByLocation],
   );
 
   const getAdressByLocation = React.useCallback(async (location) => {
-    const {latitude, longitude} = location;
+    const { latitude, longitude } = location;
     const APIKEY = APIKEYGOOGLEMAP;
     // const dataJson = await (
     //   await fetch(
@@ -99,10 +108,11 @@ const MotorBikeScreen = () => {
         altitude: location.altitude,
         heading: location.heading,
         pitch: 1,
-        zoom: 16,
+        zoom: 15,
       },
-      {duration: 1},
+      { duration: 1 },
     );
+    onMapInit.current = true;
   }, []);
 
   return (

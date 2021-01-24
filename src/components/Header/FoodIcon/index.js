@@ -1,16 +1,18 @@
 import React from 'react';
-import {SafeAreaView, Text, TouchableWithoutFeedback, View} from 'react-native';
-import LottieView from 'lottie-react-native';
+import {
+  SafeAreaView, Text, TouchableWithoutFeedback, View,
+} from 'react-native';
+// import LottieView from 'lottie-react-native';
 
-import {styleHeader} from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
-import {Color, IconSize} from '../../../configs/colors';
+import { useNavigation } from '@react-navigation/native';
 import geolocation from '@react-native-community/geolocation';
-import {useDispatch, useSelector} from 'react-redux';
-import {GET_CURRENT_POSITION_REQUEST} from '../../../Redux/Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Color, IconSize } from '../../../configs/colors';
+import { styleHeader } from './styles';
+import { GET_CURRENT_POSITION_REQUEST } from '../../../Redux/Actions';
 
 const iconRightList = [
   {
@@ -31,10 +33,12 @@ const FoodIconHeader = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    // console.log(1);
     const success = async (location) => {
-      const {latitude, longitude} = location.coords;
-      const coords = {latitude, longitude};
-      dispatch({type: GET_CURRENT_POSITION_REQUEST, coords});
+      console.log('🚀 ~ file: index.js ~ line 37 ~ success ~ location', location);
+      const { latitude, longitude } = location.coords;
+      const coords = { latitude, longitude };
+      dispatch({ type: GET_CURRENT_POSITION_REQUEST, coords });
     };
 
     const error = (err) => {
@@ -47,7 +51,7 @@ const FoodIconHeader = () => {
       maximumAge: 10000,
     };
 
-    geolocation.watchPosition(success, error, options);
+    geolocation.getCurrentPosition(success, error, options);
   }, [dispatch]);
 
   const currentPosition = false;
@@ -56,30 +60,30 @@ const FoodIconHeader = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const renderRightItems = React.useCallback(() => {
-    return iconRightList.map((item, index) => {
-      const Component = item.component;
-      return (
-        <View style={styleHeader.iconRightWrapper}>
-          <Component
-            name={item.nameIcon}
-            size={IconSize.medium}
-            color={Color.silver}
-          />
-        </View>
-      );
-    });
-  }, []);
-
-  if (!currentPosition)
+  const renderRightItems = React.useCallback(() => iconRightList.map((item, index) => {
+    const Component = item.component;
     return (
-      <LottieView
-        autoPlay
-        style={styleHeader.lottie}
-        loop
-        source={require('../../../assets/Lottie/globe-world-map-search.json')}
-      />
+      <View style={styleHeader.iconRightWrapper}>
+        <Component
+          name={item.nameIcon}
+          size={IconSize.medium}
+          color={Color.silver}
+        />
+      </View>
     );
+  }), []);
+
+  if (!currentPosition) {
+    return (
+    // <LottieView
+    //   autoPlay
+    //   style={styleHeader.lottie}
+    //   loop
+    //   source={require('../../../assets/Lottie/globe-world-map-search.json')}
+    // />
+      null
+    );
+  }
 
   const currentAddress = `${currentPosition?.results[0].address_components[0].long_name} ${currentPosition?.results[0].address_components[1].long_name}`;
 
@@ -97,7 +101,8 @@ const FoodIconHeader = () => {
       <View style={styleHeader.titleContainer}>
         <Text style={styleHeader.textDetail}>GIAO TỚI</Text>
         <Text style={styleHeader.textTitle}>
-          {currentAddress}{' '}
+          {currentAddress}
+          {' '}
           <AntDesign
             name="caretdown"
             size={IconSize.small}
